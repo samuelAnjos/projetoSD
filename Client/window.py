@@ -348,10 +348,6 @@ class MainWindow(QMainWindow):
 
 		# Mostrar janela
 		self.fileWin.show()
-
-	# FILE TRANSFER - FUNÇÃO
-	def fileTransfer(self):
-
 	
 	# Sobre - JANELA
 	def sobreWin(self):
