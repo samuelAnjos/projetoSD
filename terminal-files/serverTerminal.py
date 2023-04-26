@@ -147,6 +147,15 @@ class Server():
                 client.send(send_lengthSelf)
                 client.send(messageSelf)
 
+    def enviaArquivos(self, namefile):
+        namefile = self.recv(1024).decode()
+        with open(source_dir + "/" + namefile, 'rb') as file:
+            data = file.read(1024)
+            while data:
+                client_socket.sendall(data)
+                data = file.read(1024)
+
+
 
 def date():
     now = datetime.now()

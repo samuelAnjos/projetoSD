@@ -1,7 +1,8 @@
-from config import *
 import threading
 import socket
 
+#from arquivo import *
+from config import *
 
 class Client():
 
@@ -77,6 +78,16 @@ class Client():
         self.online = False
         print("[CONEXÃO ENCERRADA]")
     
+    def handle_client(self):
+        dest_dir = "/path/to/default/destination/directory"  # Change this to the default destination directory
+        namefile = str(input('Arquivo> '))
+        self.client.send(namefile.encode())
+        with open(dest_dir + "/" + filename, 'wb') as file:
+            data = client_socket.recv(1024)
+            while data:
+                file.write(data)
+                data = client_socket.recv(1024)
+
 
 # SUPORT FUNCTIONS
 def encodeMsg(msg):

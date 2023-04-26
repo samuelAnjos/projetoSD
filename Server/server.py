@@ -162,8 +162,7 @@ class Server():
         # Ao receber, seta variável para offline, encerra o socket e fecha app
         self.online = False
         self.s.close()
-
-
+        
 # FUNÇÕES DE SUPORTE
 
 # Retorna data e hora

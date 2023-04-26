@@ -100,8 +100,7 @@ class Client():
             self.online = False
             self.client.close()
             self.win.signal.chatLabel.emit("<p><i><b>[CONEXÃO ENCERRADA]</i></p>")
-
-
+    
 # FUNÇÕES DE SUPORTE
 
 # codifica a mensagem para enviar via socket

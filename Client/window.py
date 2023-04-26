@@ -165,16 +165,19 @@ class MainWindow(QMainWindow):
 		self.gridLayout.addWidget(self.sendBtn, 6, 3, 1, 1)
 		self.sendBtn.clicked.connect(self.newMsg)
 
+
 		# MENU BAR
 		self.menubar = QtWidgets.QMenuBar(self)
-		self.menubar.setGeometry(QtCore.QRect(0, 0, 783, 21))
+		self.menubar.setGeometry(QtCore.QRect(0, 0, 790, 25))
 		self.menubar.setStyleSheet("background-color: rgb(255, 255, 255);")
 		self.menubar.setObjectName("menubar")
 		self.setMenuBar(self.menubar)
 		self.menuOptions = QtWidgets.QMenu(self.menubar)
 		self.menuOptions.setObjectName("menuOptions")
-		self.actionChangeName = QtWidgets.QAction(self) # cria menu
+		self.actionChangeName = QtWidgets.QAction(self)
 		self.actionChangeName.setObjectName("actionChangeName")
+		self.actionFileTransfer = QtWidgets.QAction(self)
+		self.actionFileTransfer.setObjectName("actionFileTransfer")
 		self.actionLimpar = QtWidgets.QAction(self)
 		self.actionLimpar.setObjectName("actionLimpar")
 		self.actionEncerrarConn = QtWidgets.QAction(self)
@@ -186,6 +189,7 @@ class MainWindow(QMainWindow):
 
 		# Define ações ao acessar a barra de menu
 		self.menuOptions.addAction(self.actionChangeName)
+		self.menuOptions.addAction(self.actionFileTransfer)
 		self.menuOptions.addAction(self.actionEncerrarConn)
 		self.menuOptions.addAction(self.actionLimpar)
 		self.menuOptions.addSeparator() # separador
@@ -217,6 +221,7 @@ class MainWindow(QMainWindow):
 		self.titulo.setText(_translate("MainWindow", "SDChat"))
 		self.menuOptions.setTitle(_translate("MainWindow", "Menu"))
 		self.actionChangeName.setText(_translate("MainWindow", "Alterar Nome"))
+		self.actionFileTransfer.setText(_translate("MainWindow", "Enviar Arquivo"))
 		self.actionEncerrarConn.setText(_translate("MainWindow", "Encerrar Conexão"))
 		self.actionLimpar.setText(_translate("MainWindow", "Limpar Chat"))
 		self.actionQuit.setText(_translate("MainWindow", "Quit"))
@@ -226,12 +231,14 @@ class MainWindow(QMainWindow):
 
 		# Setando atalhos das abas
 		self.actionChangeName.setShortcut(_translate("MainWindow", "Ctrl+N"))
+		self.actionFileTransfer.setShortcut(_translate("MainWindow", "Ctrl+T"))
 		self.actionEncerrarConn.setShortcut(_translate("MainWindow", "Ctrl+F"))
 		self.actionLimpar.setShortcut(_translate("MainWindow", "Escape"))
 		self.actionQuit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
 
 		# Definindo rotinas (triggers) para quando uma das abas for acessada
 		self.actionChangeName.triggered.connect(self.changeNameWin)
+		self.actionFileTransfer.triggered.connect(self.fileTransferWin)
 		self.actionEncerrarConn.triggered.connect(self.client.disconnect)
 		self.actionLimpar.triggered.connect(self.chat.clear)
 		self.actionQuit.triggered.connect(self.closeEvent)
@@ -303,6 +310,49 @@ class MainWindow(QMainWindow):
 			self.client.sendMsg(name, CHANGE_NAME) # chamada função de envio do cliente envia TAG
 			self.nameWin.close() # fecha janela de troca de username
 
+	# FILE TRANSFER - JANELA
+	def fileTransferWin(self):
+		# WINDOW FILE inicializando
+		self.fileWin = QMainWindow()
+		self.fileWin.setWindowIcon(QtGui.QIcon(u"img\\mini.png"))
+		self.fileWin.setWindowTitle("Enviar Arquivo")
+		self.fileWin.setStyleSheet("background-color: qlineargradient(spread:repeat, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(223, 144, 138, 255), stop:0.971591 rgba(57, 255, 136, 255));")
+		sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
+		sizePolicy.setHorizontalStretch(0)
+		sizePolicy.setVerticalStretch(0)
+		sizePolicy.setHeightForWidth(self.fileWin.sizePolicy().hasHeightForWidth())
+		self.fileWin.setSizePolicy(sizePolicy)
+		self.fileWin.setMinimumSize(QtCore.QSize(250, 140))
+		self.fileWin.setMaximumSize(QtCore.QSize(250, 140))
+		
+		self.file_path = ''
+        
+		# BOTÃO DE SELECT FILE
+		self.sendName = QtWidgets.QPushButton(self.fileWin)
+		self.sendName.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+		self.sendName.setMaximumSize(QtCore.QSize(80, 40))
+		self.sendName.setGeometry(QtCore.QRect(30, 90, 75, 23))
+		self.sendName.setText("Select File")
+		self.sendName.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 0));\n")
+
+		# BOTÃO DE CANCELAMENTO
+		self.cancelName = QtWidgets.QPushButton(self.fileWin)
+		self.cancelName.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+		self.cancelName.setGeometry(QtCore.QRect(130, 90, 75, 23))
+		self.cancelName.setText("Cancelar")
+		self.cancelName.setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 0));\n")
+
+		# SINAIS - envio e cancelamento
+		self.sendName.clicked.connect(self.fileTransfer)
+		self.cancelName.clicked.connect(self.fileWin.close)
+
+		# Mostrar janela
+		self.fileWin.show()
+
+	# FILE TRANSFER - FUNÇÃO
+	def fileTransfer(self):
+
+	
 	# Sobre - JANELA
 	def sobreWin(self):
 
